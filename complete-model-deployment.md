@@ -15,7 +15,7 @@ aws ec2 describe-images \
 
 This prints the latest Ubuntu 20.04 AMI ID for the region. Adjust the name filter to whichever you need.
 ### let say you received: ami-000001
-### So, cmd $> exportAMI_ID="ami-000001"
+### So, cmd $> export AMI_ID="ami-000001"
 
 ### 2. Create a VPC, public subnets (multi-AZ), and Internet Gateway
 
@@ -28,7 +28,7 @@ aws ec2 create-vpc --cidr-block 10.10.0.0/16 --query 'Vpc.VpcId' --output text -
 ```
 
 Save the returned VPC id in VPC_ID.
-
+### So, cmd $> export VPC_ID="vpc-0001"
 - Create two public subnets in different AZs (replace ${AWS_REGION}a/b if needed):
 
 ```
@@ -36,13 +36,13 @@ aws ec2 create-subnet --vpc-id $VPC_ID --cidr-block 10.10.1.0/24 --availability-
 ```
 
 save as SUBNET_ID1
-
+### So, cmd $> export SUBNET_ID1="subnet-000001"
 ```
 aws ec2 create-subnet --vpc-id $VPC_ID --cidr-block 10.10.2.0/24 --availability-zone ${AWS_REGION}b --query 'Subnet.SubnetId' --output text --region $AWS_REGION
 ```
 
 save as SUBNET_ID2
-
+### So, cmd $> export SUBNET_ID2="subnet-000001"
 - Create and attach an Internet Gateway
 
 ```
@@ -50,7 +50,7 @@ aws ec2 create-internet-gateway --query 'InternetGateway.InternetGatewayId' --ou
 ```
 
 save as IGW_ID
-
+### So, cmd $> export IGW_ID="igw-000001"
 ```
 aws ec2 attach-internet-gateway --internet-gateway-id $IGW_ID --vpc-id $VPC_ID --region $AWS_REGION
 ```
@@ -62,7 +62,7 @@ aws ec2 create-route-table --vpc-id $VPC_ID --query 'RouteTable.RouteTableId' --
 ```
 
 save as RTB_ID
-
+### So, cmd $> export RTB_ID="rtb-000001"
 ```
 aws ec2 create-route --route-table-id $RTB_ID --destination-cidr-block 0.0.0.0/0 --gateway-id $IGW_ID --region $AWS_REGION
 ```
@@ -88,7 +88,7 @@ aws ec2 create-security-group --group-name intent-sg --description "Allow app an
 ```
 
 save as SG_ID
-
+### So, cmd $> export SG_ID="sg-000001"
 Add rules:
 
 ```
@@ -112,6 +112,11 @@ Prepare your user-data
 
 Create a user-data.sh file with your startup script (refer userdata.sh). Make sure it is executable text.
 
+### export LAUNCH_TEMPLATE_NAME="mlops-template"
+### export INSTANCE_TYPE="t2.medium"
+### export KEY_NAME="mlops-keypair.pem"
+### echo $AMI_ID
+
 - Ensure these are exported: AMI_ID, INSTANCE_TYPE, KEY_NAME, LAUNCH_TEMPLATE_NAME
 
 ```
@@ -123,7 +128,7 @@ aws ec2 create-launch-template \
 --region $AWS_REGION
 ```
 
-### 6. Create Target Group and Application Load Balancer (ALB)
+### 6. Create Target Group and Application Load Balancer (ALB) 
 
 - Create target group (instances will be registered automatically by ASG)
 
@@ -131,7 +136,7 @@ aws ec2 create-launch-template \
 aws elbv2 create-target-group --name mlops-target-group --protocol HTTP --port 80 --vpc-id $VPC_ID --health-check-protocol HTTP --health-check-path /health --matcher HttpCode=200 --region $AWS_REGION
 ```
 
-Save target group arn from output as TARGET_GROUP_ARN.
+EXPORT > Save target group arn from output as TARGET_GROUP_ARN.
 
 - Create an ALB (public) in the two subnets you created. The --subnets parameter must include at least two subnets in different AZs
 
@@ -139,7 +144,7 @@ Save target group arn from output as TARGET_GROUP_ARN.
 aws elbv2 create-load-balancer --name model-deployment --subnets $SUBNET_ID1 $SUBNET_ID2 --security-groups $SG_ID --scheme internet-facing --type application --region $AWS_REGION
 ```
 
-save as ALB_ARN
+>  EXPORT save as ALB_ARN
 
 - Create a listener to forward traffic from port 80 to the target group
 
