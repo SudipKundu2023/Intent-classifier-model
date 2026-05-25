@@ -14,6 +14,8 @@ aws ec2 describe-images \
 ```
 
 This prints the latest Ubuntu 20.04 AMI ID for the region. Adjust the name filter to whichever you need.
+### let say you received: ami-000001
+### So, cmd $> exportAMI_ID="ami-000001"
 
 ### 2. Create a VPC, public subnets (multi-AZ), and Internet Gateway
 
