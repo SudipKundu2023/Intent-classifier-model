@@ -49,6 +49,7 @@ Verify nodes:
 List clusters:
 
     eksctl get cluster
+    > kubectl config current-context
 
 Describe cluster:
 
