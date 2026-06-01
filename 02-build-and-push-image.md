@@ -7,10 +7,10 @@ This document provides the commands to build the Docker image for the Intent Cla
 `docker login`
 
 ### Build the Docker Image
-=> docker build -t mlops-demo:latest .
-=> docker images | head -5
-=> docker images | grep mlops-demo
-=> docker run -p 6000:6000 -d mlops-demo:latest
+'=> docker build -t mlops-demo:latest .'
+'=> docker images | head -5'
+'=> docker images | grep mlops-demo'
+'=> docker run -p 6000:6000 -d mlops-demo:latest'
 
 
 Replace <dockerhub-username> with your Docker Hub username.
