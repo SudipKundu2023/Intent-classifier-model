@@ -7,7 +7,8 @@ This document provides the commands to build the Docker image for the Intent Cla
 `docker login`
 
 ### Build the Docker Image
-> docker build -t mlops-demo:latest
+=> docker build -t mlops-demo:latest .
+
 Replace <dockerhub-username> with your Docker Hub username.
 
 `docker build -t <dockerhub-username>/intent-classifier:latest .`
