@@ -24,7 +24,9 @@ Replace <dockerhub-username> with your Docker Hub username.
 
 ### Tag the Image (Optional Version Tag)
 
-`docker tag <dockerhub-username>/intent-classifier:latest <dockerhub-username>/intent-classifier:v1`
+docker tag <Image_ID> <dockerhub-username>/intent-classifier:v1
+
+e.g >>>>  docker tag 60a1924c83d7 sudipkundu2025/intent-classifier:v1
 
 ### Push the Image to Docker Hub
 
