@@ -64,6 +64,21 @@ kubectl apply -f 06-ingress.yaml
 
 # check for external address and map to DNS
 kubectl get ingress -n intent-namespace
+# for testing purpose map locally
+curl -X POST --resolve example.com:80:<ARN Address> http://example.com/predict -H "Content-Type: application/json" -d {"a":"hello"}
+
+trouble shoot:
+to check for IP address:
+nslookup <ARN Address>
+OR
+dig +short <ARN Address>
+OR
+getent ahosts <ARN Address>
+
+
+
+
+
 
 
 
