@@ -50,3 +50,20 @@ Look for the `traefik` service of type **LoadBalancer**, and use the external DN
 ---
 
 # End of installation steps
+
+# add ingress resource
+
+# get the traefik pod name
+kubectl get pods -n traefik
+
+# get the log floating
+kubectl logs traefik-6f4ff44789-tdlr9 -n traefik -f
+
+# appliy the ingress.yaml
+kubectl apply -f 06-ingress.yaml
+
+# check for external address and map to DNS
+kubectl get ingress -n intent-namespace
+
+
+
