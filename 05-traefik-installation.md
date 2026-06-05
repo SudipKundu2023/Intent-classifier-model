@@ -9,6 +9,11 @@ chmod 700 get_helm.sh
 
 ./get_helm.sh
 
+
+## In  windows local
+open powershell as Administrator:
+>> choco install kubernetes-helm
+
 # Traefik Ingress Controller Installation
 
 ---
