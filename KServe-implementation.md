@@ -6,6 +6,17 @@
 kubectl apply -f https://github.com/cert-manager/cert-manager/releases/latest/download/cert-manager.yaml
 ```
 
+check which cluster it is pointing to:
+ kubectl config current-context
+ 
+install cert manager for ssl manager 
+check the status 
+
+kubectl get pods -n cert-manager
+
+
+
+ 
 ### Install KServe CRDs
 
 ```
